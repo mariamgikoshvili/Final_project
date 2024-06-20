@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <div class="container">
+        <h2 class="text-center">My Bookings</h2>
+        <div class="row">
+            <div class="col">
+                <table class="table table-striped">
+                    <thead class="thead-dark text-center">
+                        <tr>
+                            <th class="align-middle">Booking ID</th>
+                            <th class="align-middle">Room</th>
+                            <th class="align-middle">Hotel</th>
+                            <th class="align-middle">Check-in</th>
+                            <th class="align-middle">Check-out</th>
+                            <th class="align-middle">Total Price</th>
+                            <th class="align-middle">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for booking in booking_list %}
+                            <tr>
+                                <td>{{ booking.id }}</td>
+                                <td>{{ booking.room.category }}</td>
+                                <td>{{ booking.room.hotel.name }}</td>
+                                <td>{{ booking.check_in }}</td>
+                                <td>{{ booking.check_out }}</td>
+                                <td> ${{ booking.total_price }}</td>
+                                <td><a href="{% url 'booking_delete' booking.pk %}" class="btn btn-danger btn-sm">Cancel Booking</a></td>
+                            </tr>
+                        {% empty %}
+                            <tr>
+                                <td colspan="7" class="text-center">No bookings found.</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1"> first </a>
+                <a href="?page={{ page_obj.previus_page_number }}">previous</a>
+            {% endif %}
+        </span>
+        <span class="current">
+            Page {{ page_obj.number}} of {{ page_obj.paginator.num_pages }}
+        </span>
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}"> Next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}"> Last </a>
+
+        {% endif %}
+    </div>
+{% endblock %}

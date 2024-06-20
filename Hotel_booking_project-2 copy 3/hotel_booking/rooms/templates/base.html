@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel Booking System</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #343a40;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+        }
+        nav {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        nav a {
+            color: #343a40;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 20px;
+            transition: all 0.3s ease;
+        }
+        nav a:hover {
+            color: #ffc107;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        footer {
+            background-color: #343a40;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            bottom: 0;
+            width: 100%;
+            margin-top: auto;
+            
+        }
+        .alert {
+            padding: 0.25rem 0.75rem;
+            border-radius: 0.5rem;
+        
+        }
+        .alert-success {
+            background-color: #1ba345;
+            color: #f2f2f2;
+        }
+        .alert-info{
+            background-color: red;
+            color: white;
+        }
+        .pagination{
+        margin: 20px 0;
+        display: flex;
+        justify-content: center;
+    }
+    .pagination a, .pagination span{
+        margin: 0 5px;
+        padding: 8px 16px;
+        border: 1px solid #ddd;
+        text-decoration: none;
+        color: #333;
+    }
+    .pagination .current{
+        background-color: #333;
+        color: #fff;
+    }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Hotel Booking System</h1>
+    </header>
+    <nav>
+        <a href="{% url 'home' %}">Home</a>
+        <a href="{% url 'hotellist' %}">Hotels</a>
+        <a href="{% url 'bookinglist' %}">My Bookings</a>
+        {% if request.user.is_authenticated %}
+            <p> Welcome, {{ request.user }}</p>
+            <a href="{% url 'logout' %}" class="btn btn-danger">Logout</a>
+        {% else %}
+            <a href="{% url 'login' %}" class="btn btn-primary">Login</a>
+        {% endif %}
+    </nav>
+    
+    <div class="container">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}" >
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Hotel Booking System</p>
+    </footer>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-6v+esq0qLP4+tnr8zD2W+u9t7HG3lrV89Z+3LlV+rtVclE8RqMGjgE2wwM+I1J5J" crossorigin="anonymous"></script>
+</body>
+</html>
